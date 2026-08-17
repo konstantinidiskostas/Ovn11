@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Movie } from "../types/movie";
+import type { Movie } from "../types/movie";
 import { getMovies } from "../services/movieService";
 
 
