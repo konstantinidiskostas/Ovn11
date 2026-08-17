@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieApi", "MovieApi\MovieApi.csproj", "{75643503-DAE8-4631-A04A-89B1A9254664}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieApi.tests", "MovieApi.tests\MovieApi.tests\MovieApi.tests.csproj", "{28A25915-2053-4B09-AAF3-54C0660BC170}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75643503-DAE8-4631-A04A-89B1A9254664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75643503-DAE8-4631-A04A-89B1A9254664}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75643503-DAE8-4631-A04A-89B1A9254664}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75643503-DAE8-4631-A04A-89B1A9254664}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28A25915-2053-4B09-AAF3-54C0660BC170}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28A25915-2053-4B09-AAF3-54C0660BC170}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28A25915-2053-4B09-AAF3-54C0660BC170}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28A25915-2053-4B09-AAF3-54C0660BC170}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
