@@ -6,3 +6,10 @@ export interface Movie  {
     duration: number;
 
 }
+
+export interface MovieCreateDto {
+    title: string;
+    year: number;
+    genre: string;
+    duration: number;
+}

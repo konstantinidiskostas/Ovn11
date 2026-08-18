@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import type { Movie } from "../types/movie";
-import { getMovies } from "../services/movieService";
+import type { Movie, MovieCreateDto } from "../types/movie";
+import { getMovies, createMovie } from "../services/movieService";
 
 
 
@@ -13,6 +13,12 @@ export const MovieList = () => {
     const [movies, setMovies] = useState<Movie[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [formData, setFormData] = useState<MovieCreateDto>({
+        title: '',
+        year: 0,
+        genre: '',
+        duration: 0,
+    });
 
 //######################################################
 // useEffect to fetch movies
@@ -35,6 +41,25 @@ useEffect(() => {
   if (loading) return <p>Movie loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === 'number' ? Number(value) : value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const newMovie = await createMovie(formData);
+      setMovies((prevMovies) => [...prevMovies, newMovie]);
+      setFormData({ title: '', year: 0, genre: '', duration: 0 });
+    } catch (err: any) {
+      alert(`Error creating movie: ${err.message}`);
+    }
+  };
+
   return (
     <div>
       <h2>Movie List</h2>
@@ -49,7 +74,56 @@ useEffect(() => {
           ))}
         </ul>
       )}
+      <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
+  <h3>Add a new movie</h3>
+  
+  <div>
+    <label>Title: </label>
+    <input
+      type="text"
+      name="title"
+      value={formData.title}
+      onChange={handleChange}
+      required
+    />
+  </div>
+
+  <div>
+    <label>Year: </label>
+    <input
+      type="number"
+      name="year"
+      value={formData.year}
+      onChange={handleChange}
+      required
+    />
+  </div>
+
+  <div>
+    <label>Genre: </label>
+    <input
+      type="text"
+      name="genre"
+      value={formData.genre}
+      onChange={handleChange}
+      required
+    />
+  </div>
+
+  <div>
+    <label>Duration (minutes): </label>
+    <input
+      type="number"
+      name="duration"
+      value={formData.duration}
+      onChange={handleChange}
+      required
+    />
+  </div>
+
+  <button type="submit" style={{ marginTop: '10px' }}>Save</button>
+</form>
     </div>
+    
   );
 };
-
