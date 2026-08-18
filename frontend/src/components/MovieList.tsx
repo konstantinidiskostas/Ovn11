@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { Movie, MovieCreateDto } from "../types/movie";
-import { getMovies, createMovie } from "../services/movieService";
+import { getMovies, createMovie, updateMovie } from "../services/movieService";
 
 
 
@@ -19,6 +19,7 @@ export const MovieList = () => {
         genre: '',
         duration: 0,
     });
+    const [editingMovieId, setEditingMovieId] = useState<number | null>(null);
 
 //######################################################
 // useEffect to fetch movies
@@ -49,14 +50,36 @@ useEffect(() => {
     });
   };
 
+
+
+  const handleEdit = (movie: Movie) => {
+    setEditingMovieId(movie.id);
+    setFormData({
+      title: movie.title,
+      year: movie.year,
+      genre: movie.genre,
+      duration: movie.duration,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const newMovie = await createMovie(formData);
-      setMovies((prevMovies) => [...prevMovies, newMovie]);
+      if (editingMovieId !== null) {
+        const updatedMovie = await updateMovie(editingMovieId, formData);
+        setMovies((prevMovies) =>
+          prevMovies.map((movie) =>
+            movie.id === editingMovieId ? updatedMovie : movie
+          )
+        );
+        setEditingMovieId(null);
+      } else {
+        const newMovie = await createMovie(formData);
+        setMovies((prevMovies) => [...prevMovies, newMovie]);
+      }
       setFormData({ title: '', year: 0, genre: '', duration: 0 });
     } catch (err: any) {
-      alert(`Error creating movie: ${err.message}`);
+      alert(`Error saving movie: ${err.message}`);
     }
   };
 
@@ -70,6 +93,7 @@ useEffect(() => {
           {movies.map((movie) => (
             <li key={movie.id}>
               <strong>{movie.title}</strong> ({movie.year}) - {movie.genre} [{movie.duration} min]
+              <button onClick={() => handleEdit(movie)} style={{ marginLeft: '10px' }}>Edit</button>
             </li>
           ))}
         </ul>

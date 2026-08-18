@@ -27,6 +27,23 @@ export const createMovie = async(movieData: MovieCreateDto): Promise<Movie> => {
         if (!response.ok) {
             throw new Error('Error creating movie');
         }
-        return response.json();
+    return response.json();
+});
+};
+
+//######################################################
+// Put (update) an existing movie in the API
+//######################################################
+export const updateMovie = async(id: number, movieData: MovieCreateDto): Promise<Movie> => {
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, ...movieData }),
     });
+    if (!response.ok) {
+        throw new Error('Error updating movie');
+    }
+    return { id, ...movieData };
 };
