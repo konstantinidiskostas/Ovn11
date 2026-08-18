@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { Movie, MovieCreateDto } from "../types/movie";
-import { getMovies, createMovie, updateMovie } from "../services/movieService";
+import { getMovies, createMovie, updateMovie, deleteMovie } from "../services/movieService";
 
 
 
@@ -83,6 +83,15 @@ useEffect(() => {
     }
   };
 
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteMovie(id);
+      setMovies((prevMovies) => prevMovies.filter((movie) => movie.id !== id));
+    } catch (err: any) {
+      alert(`Error deleting movie: ${err.message}`);
+    }
+  };
+
   return (
     <div>
       <h2>Movie List</h2>
@@ -94,6 +103,9 @@ useEffect(() => {
             <li key={movie.id}>
               <strong>{movie.title}</strong> ({movie.year}) - {movie.genre} [{movie.duration} min]
               <button onClick={() => handleEdit(movie)} style={{ marginLeft: '10px' }}>Edit</button>
+              <button onClick={() => handleDelete(movie.id)} style={{ marginLeft: '5px' }}>
+    Delete
+  </button>
             </li>
           ))}
         </ul>
