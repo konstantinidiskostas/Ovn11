@@ -1,4 +1,4 @@
-import type { Movie, MovieCreateDto } from "../types/movie";
+import type { Movie, MovieCreateDto, MovieDetails, Review, ReviewCreateDto } from "../types/movie";
 
 const API_URL = 'http://localhost:5106/api/v1/Movie'
 
@@ -58,4 +58,35 @@ export const deleteMovie = async(id: number): Promise<void> => {
     if (!response.ok) {
         throw new Error('Error deleting movie');
     }
+};
+
+//######################################################
+// Detail view GET
+//######################################################
+export const getMovieDetails = async (id: number): Promise<MovieDetails> => {
+    const response = await fetch(`${API_URL}/${id}/details`);
+
+    if (!response.ok) {
+        throw new Error('Error fetching movie details');
+    }
+    return response.json();
+};
+
+//######################################################
+// Review POST
+//######################################################
+export const createReview = async(
+    movieId: number,
+    reviewData: ReviewCreateDto
+): Promise<Review> => {
+    const response = await fetch(`${API_URL}/${movieId}/reviews`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json',},
+    body: JSON.stringify(reviewData),
+});
+    if (!response.ok) {
+        throw new Error('Error creating review');
+    }
+
+    return response.json();
 };

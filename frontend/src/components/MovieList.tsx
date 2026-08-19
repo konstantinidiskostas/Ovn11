@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Movie, MovieCreateDto } from "../types/movie";
 import { getMovies, createMovie, updateMovie, deleteMovie } from "../services/movieService";
+import { Link } from "react-router-dom";
 
 
 
@@ -103,9 +104,11 @@ useEffect(() => {
             <li key={movie.id}>
               <strong>{movie.title}</strong> ({movie.year}) - {movie.genre} [{movie.duration} min]
               <button onClick={() => handleEdit(movie)} style={{ marginLeft: '10px' }}>Edit</button>
-              <button onClick={() => handleDelete(movie.id)} style={{ marginLeft: '5px' }}>
-    Delete
-  </button>
+              <button onClick={() => handleDelete(movie.id)} style={{ marginLeft: '5px' }}>Delete</button>
+              <Link to={`/movies/${movie.id}`} style={{ marginLeft: '10px' }}>
+      <button type="button">More info</button>
+    </Link>
+
             </li>
           ))}
         </ul>
