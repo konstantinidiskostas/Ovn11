@@ -74,7 +74,8 @@ public async Task<IEnumerable<MovieDto>> GetAllAsync(string? genre = null, strin
             {
                 Id = ma.Actor.Id,
                 Name = ma.Actor.Name,
-                BirthYear = ma.Actor.BirthYear
+                BirthYear = ma.Actor.BirthYear,
+                Role = ma.Role
             }).ToList()
         };
     }

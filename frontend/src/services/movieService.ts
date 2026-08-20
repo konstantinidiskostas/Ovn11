@@ -1,4 +1,4 @@
-import type { Movie, MovieCreateDto, MovieDetails, Review, ReviewCreateDto } from "../types/movie";
+import type { Movie, MovieCreateDto, MovieDetails, Review, ReviewCreateDto, Actor } from "../types/movie";
 
 const API_URL = 'http://localhost:5106'
 
@@ -95,4 +95,43 @@ export const createReview = async(
     }
 
     return response.json();
+};
+
+//######################################################
+// Get all actors
+//######################################################
+export const getAllActors = async (): Promise<Actor[]> => {
+    const response = await fetch(`${API_URL}/api/v1/Actors`);
+    if (!response.ok) {
+        throw new Error('Error fetching actors');
+    }
+    return response.json();
+};
+
+//######################################################
+// Add actor to movie
+//######################################################
+export const addActorToMovie = async (movieId: number, actorId: number, role: string): Promise<void> => {
+    const response = await fetch(`${API_URL}/api/v1/movies/${movieId}/actors/${actorId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ role }),
+    });
+    if (!response.ok) {
+        throw new Error('Error adding actor to movie');
+    }
+};
+
+//######################################################
+// Update actor role in movie
+//######################################################
+export const updateActorRole = async (movieId: number, actorId: number, role: string): Promise<void> => {
+    const response = await fetch(`${API_URL}/api/v1/movies/${movieId}/actors/${actorId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ role }),
+    });
+    if (!response.ok) {
+        throw new Error('Error updating actor role');
+    }
 };

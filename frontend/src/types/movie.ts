@@ -18,6 +18,7 @@ export interface Actor {
     id: number;
     name: string;
     birthYear: number;
+    role: string;
 }
 
 export interface Review {

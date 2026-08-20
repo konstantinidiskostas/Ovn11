@@ -153,6 +153,20 @@ namespace MovieApi.Controllers.V1
             return Ok(new { message = "Actor linked with role." });
         }
 
+        [HttpPut("/api/v{version:ApiVersion}/movies/{movieId}/actors/{actorId}")]
+        public async Task<IActionResult> UpdateActorRole(int movieId, int actorId, [FromBody] MovieActorDto dto)
+        {
+            var movieActor = await _context.MovieActor
+                .FirstOrDefaultAsync(ma => ma.MovieId == movieId && ma.ActorId == actorId);
+
+            if (movieActor == null) return NotFound("Actor not assigned to this movie.");
+
+            movieActor.Role = dto.Role;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Role updated." });
+        }
+
         private bool ActorExists(int id)
         {
             return _context.Actor.Any(e => e.Id == id);
