@@ -1,4 +1,4 @@
-import type { Movie, MovieCreateDto, MovieDetails, Review, ReviewCreateDto, Actor } from "../types/movie";
+import type { Movie, MovieCreateDto, MovieDetails, Review, ReviewCreateDto, Actor, TopGenreReport, AverageRatingReport, ActiveActorReport } from "../types/movie";
 
 const API_URL = 'http://localhost:5106'
 
@@ -134,4 +134,25 @@ export const updateActorRole = async (movieId: number, actorId: number, role: st
     if (!response.ok) {
         throw new Error('Error updating actor role');
     }
+};
+
+//######################################################
+// Reports
+//######################################################
+export const getTopMoviesPerGenre = async (): Promise<TopGenreReport[]> => {
+    const response = await fetch(`${API_URL}/api/v1/Reports/top-movies-per-genre`);
+    if (!response.ok) throw new Error('Error fetching genre report');
+    return response.json();
+};
+
+export const getAverageRating = async (): Promise<AverageRatingReport[]> => {
+    const response = await fetch(`${API_URL}/api/v1/Reports/average-rating`);
+    if (!response.ok) throw new Error('Error fetching average rating report');
+    return response.json();
+};
+
+export const getActiveActors = async (): Promise<ActiveActorReport[]> => {
+    const response = await fetch(`${API_URL}/api/v1/Reports/active-actors`);
+    if (!response.ok) throw new Error('Error fetching active actors report');
+    return response.json();
 };

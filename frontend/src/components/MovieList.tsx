@@ -96,6 +96,8 @@ export const MovieList = () => {
 
     return (
         <div>
+            <Link to="/dashboard">Dashboard</Link>
+            <hr />
             <div style={{ display: 'flex', gap: '15px', marginBottom: '20px' }}>
                 
                 <input

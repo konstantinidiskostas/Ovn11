@@ -45,3 +45,19 @@ export interface MovieDetails {
     actors: Actor[];
     reviews: Review[];
 }
+
+export interface TopGenreReport {
+    genre: string;
+    movieCount: number;
+}
+
+export interface AverageRatingReport {
+    title: string;
+    averageRating: number;
+    reviewCount: number;
+}
+
+export interface ActiveActorReport {
+    name: string;
+    movieCount: number;
+}
