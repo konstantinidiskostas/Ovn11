@@ -5,12 +5,18 @@ const API_URL = 'http://localhost:5106'
 //######################################################
 // Get all movies from the API
 //######################################################
-export const getMovies = async(): Promise<Movie[]> => {
-    const response = await fetch(`${API_URL}/api/v1/Movie`);
-    if (!response.ok) {
-        throw new Error('Error fetching movies');
-    }
-    return response.json();
+export const getMovies = async (genre?: string, search?: string) => {
+  const params = new URLSearchParams();
+  if (genre) params.append('genre', genre);
+  if (search) params.append('search', search);
+  const queryString = params.toString();
+  const url = queryString
+    ? `${API_URL}/api/v1/Movie?${queryString}`
+    : `${API_URL}/api/v1/Movie`;
+
+  const response = await fetch(url);
+  if (!response.ok) throw new Error('Αποτυχία φόρτωσης ταινιών');
+  return response.json();
 };
 
 //######################################################

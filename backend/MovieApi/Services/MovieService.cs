@@ -15,19 +15,33 @@ public class MovieService : IMovieService
         _db = db;
     }
 
-    public async Task<IEnumerable<MovieDto>> GetAllAsync()
+public async Task<IEnumerable<MovieDto>> GetAllAsync(string? genre = null, string? search = null)
+{
+    var query = _db.Movie.AsQueryable();
+
+    
+    if (!string.IsNullOrWhiteSpace(genre))
     {
-        return await _db.Movie
-            .Select(m => new MovieDto
-            {
-                Id = m.Id,
-                Title = m.Title,
-                Year = m.Year,
-                Genre = m.Genre,
-                Duration = m.Duration
-            })
-            .ToListAsync();
+        query = query.Where(m => m.Genre.ToLower() == genre.ToLower());
     }
+
+    
+    if (!string.IsNullOrWhiteSpace(search))
+    {
+        query = query.Where(m => m.Title.ToLower().Contains(search.ToLower()));
+    }
+
+    return await query
+        .Select(m => new MovieDto
+        {
+            Id = m.Id,
+            Title = m.Title,
+            Year = m.Year,
+            Genre = m.Genre,
+            Duration = m.Duration
+        })
+        .ToListAsync();
+}
 
     public async Task<MovieDetailDto?> GetByIdAsync(int id)
     {
