@@ -1,12 +1,12 @@
 import type { Movie, MovieCreateDto, MovieDetails, Review, ReviewCreateDto } from "../types/movie";
 
-const API_URL = 'http://localhost:5106/api/v1/Movie'
+const API_URL = 'http://localhost:5106'
 
 //######################################################
 // Get all movies from the API
 //######################################################
 export const getMovies = async(): Promise<Movie[]> => {
-    const response = await fetch(API_URL);
+    const response = await fetch(`${API_URL}/api/v1/Movie`);
     if (!response.ok) {
         throw new Error('Error fetching movies');
     }
@@ -17,7 +17,7 @@ export const getMovies = async(): Promise<Movie[]> => {
 // Post a new movie to the API
 //######################################################
 export const createMovie = async(movieData: MovieCreateDto): Promise<Movie> => {
-    return fetch(API_URL, {
+    return fetch(`${API_URL}/api/v1/Movie`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export const createMovie = async(movieData: MovieCreateDto): Promise<Movie> => {
 // Put (update) an existing movie in the API
 //######################################################
 export const updateMovie = async(id: number, movieData: MovieCreateDto): Promise<Movie> => {
-    const response = await fetch(`${API_URL}/${id}`, {
+    const response = await fetch(`${API_URL}/api/v1/Movie/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export const updateMovie = async(id: number, movieData: MovieCreateDto): Promise
 // Delete a movie from the API
 //######################################################
 export const deleteMovie = async(id: number): Promise<void> => {
-    const response = await fetch(`${API_URL}/${id}`, {
+    const response = await fetch(`${API_URL}/api/v1/Movie/${id}`, {
         method: 'DELETE',
     });
     if (!response.ok) {
@@ -64,7 +64,7 @@ export const deleteMovie = async(id: number): Promise<void> => {
 // Detail view GET
 //######################################################
 export const getMovieDetails = async (id: number): Promise<MovieDetails> => {
-    const response = await fetch(`${API_URL}/${id}/details`);
+    const response = await fetch(`${API_URL}/api/v1/Movie/${id}/details`);
 
     if (!response.ok) {
         throw new Error('Error fetching movie details');
@@ -79,7 +79,7 @@ export const createReview = async(
     movieId: number,
     reviewData: ReviewCreateDto
 ): Promise<Review> => {
-    const response = await fetch(`${API_URL}/${movieId}/reviews`, {
+    const response = await fetch(`${API_URL}/api/movies/${movieId}/reviews`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json',},
     body: JSON.stringify(reviewData),
